@@ -12,7 +12,7 @@
   },
 
   "onCreateCommand": {
-    "Set up cachix": "echo \"trusted-users = root vscode\" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon; cachix use cachix; cachix use digitallyinduced;",
+    "Set up cachix": "echo \"trusted-users = root vscode\" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon; cachix use cachix; cachix use digitallyinduced; cachix use devenv;",
     "Set up direnv": "echo 'eval \"$(direnv hook bash)\"' >> ~/.bashrc",
     "Set IHP BASEURL": "echo 'export IHP_BASEURL=$(if [ -n \"${CODESPACE_NAME}\" ]; then echo \"https://${CODESPACE_NAME}-8000.preview.app.github.dev\"; else echo \"http://localhost:8000\"; fi)' >> ~/.bashrc",
     "Set IHP IDE BASEURL": "echo 'export IHP_IDE_BASEURL=$(if [ -n \"${CODESPACE_NAME}\" ]; then echo \"https://${CODESPACE_NAME}-8001.preview.app.github.dev\"; else echo \"http://localhost:8001\"; fi)' >> ~/.bashrc",
@@ -20,7 +20,7 @@
 
   "postCreateCommand": {
     // Credits to https://github.com/gitpod-samples/template-ihp/blob/e3fe7012621ab57657c59511b2fe0bc615d5186d/.gitpod.yml#L14
-    "Setup IHP": "sudo /usr/local/share/nix-entrypoint.sh; ( if [ ! -e \"Main.hs\" ]; then ihp-new temp; cp -r temp/. .; rm -rf temp; nix-shell -j auto --cores 0 --quiet --run 'new-application Web'; fi)"
+    "Setup IHP": "sudo /usr/local/share/nix-entrypoint.sh; ( if [ ! -e \"Main.hs\" ]; then ihp-new temp; cp -r temp/. .; rm -rf temp; nix-shell -j auto --cores 0 --quiet --run 'new-application Web'; fi); nix-env -if https://github.com/cachix/devenv/tarball/latest"
   },
 
   "containerEnv": {
